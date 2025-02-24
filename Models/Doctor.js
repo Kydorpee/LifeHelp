@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const doctorSchema = new Schema ({
  
-    name: {
+    nome: {
         type: String,
         required: [true,'Name is required']
     },

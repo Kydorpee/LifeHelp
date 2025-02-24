@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const pacientSchema = new Schema({
 
 
-    name: {
+    nome: {
         type:String,
         required:[true,"Name is required"]
     },

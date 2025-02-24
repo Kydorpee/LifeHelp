@@ -1,6 +1,6 @@
 import appointmentRepository from "../Repositories/AppointmentRepository";
 
-const getAllAppointments = async()=>{
+const getAllAppointment = async()=>{
     await appointmentRepository.getAllAppointments();
 }
 
@@ -19,7 +19,7 @@ const deleteAppointment = async (id) =>{
 
 
 const appointmentService = {
-getAllAppointments,
+getAllAppointment,
 getAppointment,
 saveAppointment,
 updateAppointment,

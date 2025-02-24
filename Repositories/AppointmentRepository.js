@@ -1,6 +1,6 @@
-import appointment, {Appointment} from "../Models/Appointment.js";
-const getAllAppointments  = async ()=> {
-    return await Appointment.fing();
+import {Appointment} from "../Models/Appointment.js";
+const getAllAppointment  = async ()=> {
+    return await Appointment.find();
 
 }
 const getAppointment = async (id) => {
@@ -42,7 +42,7 @@ const deleteAppointment =  async (id) => {
 }
 
 const appointmentRepository = {
-    getAllAppointments,
+    getAllAppointment,
     getAppointment,
     saveAppointment,
     updateAppointment,
