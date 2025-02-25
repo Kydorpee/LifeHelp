@@ -1,11 +1,12 @@
-import {Appointment} from "../Models/Appointment.js";
+import appointment from "../Models/Appointment.js";
+
 const getAllAppointment  = async ()=> {
-    return await Appointment.find();
+    return await appointment.find();
 
 }
 const getAppointment = async (id) => {
     try{
-        return await Appointment.findById(id);
+        return await appointment.findById(id);
     }catch (erro){
         throw new Error(erro);
     }
@@ -13,7 +14,7 @@ const getAppointment = async (id) => {
 
 const saveAppointment = async (date,doctorId,pacientId) => {
     try {
-        const prescription = new Appointment(date,doctorId,pacientId);
+        const prescription = new appointment(date,doctorId,pacientId);
         return await prescription.save();
 
     }catch(erro){

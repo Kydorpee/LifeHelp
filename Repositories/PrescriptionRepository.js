@@ -1,52 +1,53 @@
-import {Prescription} from ".../Models/Prescription.js";
-import appointment from "../Models/Appointment";
+import Prescription from "../Models/Prescription.js"
 
-const getAllPrescription = async ()=>{
-    return await Prescription.fin();
+const getAllPrescriptions = async () => {
+    try{
+        return await Prescription.find();
+    }catch(error){
+        throw new Error(error);
+    }
 }
-const getPrescription = async () => {
-    try {
+
+const getPrescription = async (id) => {
+    try{
         return await Prescription.findById(id);
-        
-    } catch (erro) {
-        throw new Error(erro);
+    }catch(error){
+        throw new Error(error);
     }
 }
 
-const savePrescription = async (date,appointmentId,medicine,dosage,instruction) => {
-    try {
-       const prescription = new Prescription (date,appointmentId,medicine,dosage,instruction);
-       return await prescription.save();
-        
-    } catch (error) {
-        throw new Error(erro);
-        
+const savePrescription = async ({ date, appointmentId, medicine, dosage, instructions }) => {
+    try{
+        const prescription = new Prescription({ date, appointmentId, medicine, dosage, instructions });
+        return await prescription.save();
+    }catch(error){
+        throw new Error(error);
     }
 }
-const updatePrescription = async (id,{date,appointmentId,medicine,dosage,instruction}) => {
-    try {
-        return await prescription.findByAndUpdate(id,{date,appointmentId,medicine,dosage,instruction},{new:true});
-        
-    } catch (erro) {
-        throw new Error(erro);
-        
+
+const updatePrescription = async (id, { date, appointmentId, medicine, dosage, instructions, file }) => {
+    try{
+        return await Prescription.findByIdAndUpdate(id,
+             { date, appointmentId, medicine, dosage, instructions, file }, { new: true });
+    }catch(error){
+        throw new Error(error);
     }
 }
 
 const deletePrescription = async (id) => {
-    try {
-        return await prescription.findByAndUpdate(id);
-        
-    } catch (error) {
-        throw new Error(erro);
+    try{
+        return await Prescription.findByIdAndDelete(id);
+    }catch(error){
+        throw new Error(error);
     }
 }
+ 
 const prescriptionRepository = {
-    getAllPrescription,
+    getAllPrescriptions,
     getPrescription,
     savePrescription,
     updatePrescription,
     deletePrescription
-
 }
+
 export default prescriptionRepository;

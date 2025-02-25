@@ -1,52 +1,53 @@
-import  {Pacient} from '.../Models/Pacient.js';
 
-const getAllPacient = async () =>{
-    return await pacient.find();
-}
+import Pacient from "../Models/Pacient.js";
 
-const getPacient = async () => {
-    try {
-        return await pacient.findById(id);
-        
-    } catch (erro) {
-        throw new Error(erro);
+const getAllPacients = async () => {
+    try{
+        return await Pacient.find();
+    }catch(error){
+        throw new Error(error);
     }
 }
 
-const savePacient = async () => {
-    try {
-       const pacient = new Pacient (nome,birthDate,email,phone);
-       return await pacient.save();
-        
-    } catch (error) {
-        throw new Error(erro);
-        
+const getPacient = async (id) => {
+    try{
+        return await Pacient.findById(id);
+    }catch(error){
+        throw new Error(error);
     }
 }
-const updatePacient = async (id,{nome,birthDate,email,phone}) => {
-    try {
-        return await pacient.findByAndUpdate(id,{nome,birthDate,email,phone},{new:true});
-        
-    } catch (erro) {
-        throw new Error(erro);
-        
+
+const savePacient = async ({ name, birthDate, email, phone }) => {
+    try{
+        const pacient = new Pacient({ name, birthDate, email, phone });
+        return await pacient.save();
+    }catch(error){
+        throw new Error(error);
+    }
+}
+
+const updatePacient = async (id, { name, birthDate, email, phone }) => {
+    try{
+        return await Pacient.findByIdAndUpdate(id, { name, birthDate, email, phone }, { new: true });
+    }catch(error){
+        throw new Error(error);
     }
 }
 
 const deletePacient = async (id) => {
-    try {
-        return await pacient.findByAndUpdate(id);
-        
-    } catch (error) {
-        throw new Error(erro);
+    try{
+        return await Pacient.findByIdAndDelete(id);
+    }catch(error){
+        throw new Error(error);
     }
 }
 
 const pacientRepository = {
-    getAllPacient,
+    getAllPacients,
     getPacient,
     savePacient,
     updatePacient,
     deletePacient
 }
+
 export default pacientRepository;

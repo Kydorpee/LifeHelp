@@ -1,29 +1,37 @@
-import doctorRepository from "../Repositories/DoctorRepository";
+import DoctorRepository from "../Repositories/DoctorRepository.js"
 
-const getAllDoctor = async() =>{
-    await doctorRepository.getAllDoctor();
-}
-const getDoctor = async(id) =>{
-    return doctorRepository.getAllDoctor(id);
-}
-const saveDoctor = async(date,nome,login,password,medicalSpeciality,medicalRegistration,email,phone)=>{
-    return doctorRepository.saveDoctor(date,nome,login,password,medicalSpeciality,medicalRegistration,email,phone);
-}
-const updateDoctor = async(id,{date,nome,login,password,medicalSpeciality,medicalRegistration,email,phone})=>{
-    return doctorRepository.updateDoctor(id,{date,nome,login,password,medicalSpeciality,medicalRegistration,email,phone});
-}
-const deleteDoctor = async (id) =>{
-    return doctorRepository.deleteDoctor(id);
+const getAllDoctors = async () => {
+    return await DoctorRepository.getAllDoctors();
 }
 
+const getDoctor = async (id) => {
+    return await DoctorRepository.getDoctor(id);
+}
+
+const saveDoctor = async ({ name, login, password, medicalSpecialty, medicalRegistration, email, phone }) => {
+    return await DoctorRepository.saveDoctor({ name, login, password, medicalSpecialty, medicalRegistration, email, phone });
+}
+
+const updateDoctor = async (id, { name, login, password, medicalSpecialty, medicalRegistration, email, phone }) => {
+    return await DoctorRepository.updateDoctor(id, { name, login, password, medicalSpecialty, medicalRegistration, email, phone });
+}
+
+const deleteDoctor = async (id) => {
+    return await DoctorRepository.deleteDoctor(id);
+}
+
+// login
+const getDoctorByLogin = async(login) => {
+   return await DoctorRepository.getDoctorByLogin(login);
+}
 
 const doctorService = {
-    getAllDoctor,
+    getAllDoctors,
     getDoctor,
     saveDoctor,
     updateDoctor,
-    deleteDoctor
-
+    deleteDoctor,
+    getDoctorByLogin
 }
 
 export default doctorService;

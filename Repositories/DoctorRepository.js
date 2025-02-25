@@ -1,52 +1,63 @@
-import {Doctor} from ".../models/Doctor.js";
+import Doctor from "../Models/Doctor.js"
 
-const getAllDoctor = async () =>{
-    return await Doctor.find();
+const getAllDoctors = async () => {
+    try{
+        return await Doctor.find();
+    }catch(error){
+        throw new Error(error);
+    }
 }
 
-const getDoctor = async () => {
-    try {
+const getDoctor = async (id) => {
+    try{
         return await Doctor.findById(id);
-        
-    } catch (erro) {
-        throw new Error(erro);
+    }catch(error){
+        throw new Error(error);
     }
 }
 
-const saveDoctor = async () => {
-    try {
-       const doctor = new Doctor (date,nome,login,password,medicalSpeciality,medicalRegistration,email,phone);
-       return await doctor.save();
-        
-    } catch (error) {
-        throw new Error(erro);
-        
+const saveDoctor = async ({ name, login, password, medicalSpecialty, medicalRegistration, email, phone }) => {
+    try{
+        const doctor = new Doctor({ name, login, password, medicalSpecialty, medicalRegistration, email, phone });
+        return await doctor.save();
+    }catch(error){
+        throw new Error(error);
     }
 }
-const updateDoctor = async (id,{date,nome,login,password,medicalSpeciality,medicalRegistration,email,phone}) => {
-    try {
-        return await Doctor.findByAndUpdate(id,{date,nome,login,password,medicalSpeciality,medicalRegistration,email,phone},{new:true});
-        
-    } catch (erro) {
-        throw new Error(erro);
-        
+
+const updateDoctor = async (id, { name, login, password, medicalSpecialty, medicalRegistration, email, phone }) => {
+    try{
+        return await Doctor.findByIdAndUpdate(id, { name, login, password, medicalSpecialty, medicalRegistration, email, phone }, { new: true });
+    }catch(error){
+        throw new Error(error);
     }
+
 }
 
 const deleteDoctor = async (id) => {
+    try{
+        return await Doctor.findByIdAndDelete(id);
+    }catch(error){
+        throw new Error(error);
+    }
+}
+
+// login
+const getDoctorByLogin = async (login) => {
     try {
-        return await Doctor.findByAndUpdate(id);
-        
+        return await Doctor.findOne({"login": login});
     } catch (error) {
-        throw new Error(erro);
+        throw new Error(error);
     }
 }
 
 const doctorRepository = {
-    getAllDoctor,
+    getAllDoctors,
     getDoctor,
-    updateDoctor,
     saveDoctor,
-    deleteDoctor
+    updateDoctor,
+    deleteDoctor,
+    getDoctorByLogin
 }
+
 export default doctorRepository;

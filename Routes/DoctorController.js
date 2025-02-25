@@ -1,63 +1,68 @@
-import {express} from "express";
-import doctorService from "../Services/DoctorService";
+
+import express from "express";
+import bcrypt from 'bcrypt';
+import DoctorService from "../Services/DoctorService.js";
+
 
 let router = express.Router();
 
-router.get('/doctor',async(req,res)=>{
+router.get('/doctors', async (req, res) => {
     try {
-        const doctor = await DoctorService.getAllDoctor();
-        res.send(doctor);
+      const doctors = await DoctorService.getAllDoctors();
+      res.send(doctors);
     } catch (error) {
-        console.log(erro);
-        res.status(500).send(erro);
+      console.error(error);
+      res.status(500).send(error);
     }
 });
 
-router.get('/doctor/:id',async(req,res)=>{
-    const {id} = req.params;
-    try {
-        const doctor = await DoctorService.getDoctor(id);
-        res.send(doctor)
-    } catch (error) {
-        console.log(erro);
-        res.status(500).send(erro);
-    }
+router.get('/getDoctor/:id', async (req, res) => {
+  const { id } = req.params;
+  try{
+    const doctor = await DoctorService.getDoctor(id);
+    res.send(doctor)
+  } catch (error){
+    console.error(error);
+    res.status(500).send(error);
+  }
 });
-router.get('/postDoctor', async(req,res) =>{
-    const {date,nome,login,password,medicalSpeciality,medicalRegistration,email,phone} = req.body;
-    try {
-        const doctor = await DoctorService.saveDoctor(date,nome,login,password,medicalSpeciality,medicalRegistration,email,phone);
-        res.send(doctor);
-        
+
+router.post("/postDoctor", async function(req, res){
+    const { name, login, password, medicalSpecialty, medicalRegistration, email, phone } = req.body;
+    try{
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const doctor = await DoctorService.saveDoctor({ name, login, password: hashedPassword, medicalSpecialty, medicalRegistration, email, phone });
+        res.status(201).send(doctor);
     } catch (error) {
-        console.log(erro);
-        res.status(500).send(erro);
-    }
-});
-router.put('/doctor/:id', async(req,res) =>{
-    const {id} = req.params;
-    const {date,nome,login,password,medicalSpeciality,medicalRegistration,email,phone} = req.body;
-    try {
-        const doctor = await DoctorService.updateDoctor(id,{date,nome,login,password,medicalSpeciality,medicalRegistration,email,phone});
-        res.send(doctor);
-        
-    } catch (error) {
-        console.log(erro);
-        res.status(500).send(erro);
-    }
-});
-router.delete('/doctor/:id', async(req,res) =>{
-    const {id} = req.params;
-    try {
-        const doctor = await doctorService.deleteDoctor(id);
-        res.send(doctor);
-        
-    } catch (error) {
-        console.log(erro);
-        res.status(500).send(erro);
+        console.error(error);
+        res.status(500).send("Falha ao registrar médico" + error);
     }
 });
 
+router.put('/doctors/:id', async (req, res) => {
+  const { id } = req.params;
+  const { name, login, password, medicalSpecialty, medicalRegistration, email, phone } = req.body;
+
+  try {
+    const doctor = await DoctorService.updateDoctor(id, { name, login, password, medicalSpecialty, medicalRegistration, email, phone });
+    res.send(doctor);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
+});
+
+router.delete('/doctors/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const doctor = await DoctorService.deleteDoctor(id);
+    res.send(doctor);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
+});
 
 
-export default router();
+export default router;

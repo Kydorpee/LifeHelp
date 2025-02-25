@@ -1,47 +1,52 @@
-import mongoose, {mongoose} from 'mongoose';
+import { mongoose } from "mongoose";
+
 const Schema = mongoose.Schema;
 
 const doctorSchema = new Schema ({
- 
-    nome: {
+    name: {
         type: String,
-        required: [true,'Name is required']
+        required: [true, 'Doctor name is required.']
     },
-    login:{
-        type:String,
-        required: [true, 'login is required'],
+    login: {
+        type: String,
+        required: [true, 'Login is required.'],
         unique: true
     },
-    password:{
-        type:String,
-        required: [true, 'Password is required']
-        
-    },
-    medicalSpeciality:{
+    password: {
         type: String,
-        required:[true,'Medical Speciality is required']
+        required: [true, 'Password is required.']
     },
-    medicalRegistration:{
+    medicalSpecialty: {
         type: String,
-        required:[true, 'Medical Registration is required'],
+        required: [true, 'Medical Specialty is required.']
+    },
+    medicalRegistration: {
+        type: String,
+        required: [true, 'Medical Registration is required.'],
         unique: true
     },
-    email:{
+    email: {
         type: String,
-        required: [true,'Email is required'],
-        unique:true
+        required: [true, 'Email contact is required.']
     },
-    phone:{
-        type:String,
-        required:[true,'Phone is required']
+    phone: {
+        type: String,
+        required: [true, 'Phone number is required.'],
+        validate: {
+            validator: function (v) {
+                return /\d{2} 9\d{4}-\d{4}/.test(v);
+            },
+            message: props =>
+             `${props.value} This is not a valid phone value. Please use the following format 99 91234-4567`
+        }
     },
-    
-    createdAT:{
+    createdAt: {
         type: Date,
-        default:Date.now
-    },
-});
+        default: Date.now
+    }
+}
+);
 
-const doctor = mongoose.model('Doctor',doctorSchema);
+const doctor = mongoose.model('Doctor', doctorSchema);
 
 export default doctor;

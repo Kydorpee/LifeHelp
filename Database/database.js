@@ -1,14 +1,15 @@
-import mongoose, { connect, mongo } from "mongoose";
 
-mongoose.connect('mongodb://localhost: 27017/media-app');
+import mongoose from 'mongoose';
+
+mongoose.connect('mongodb://localhost:27017/LifeHelp');
 
 const db = mongoose.connection;
 
-db.on("erro", console.error.bind(console,'connection error: '));
+db.on('error', console.error.bind(console, 'connection error: '));
 
 db.once(
-    'open',function(){
-        console.log('Database conected successfully!');
+    'open', function(){
+        console.log('Database connected successfully!');
     }
 );
 

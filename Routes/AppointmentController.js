@@ -1,66 +1,79 @@
-import {express} from "express";
-import AppointmentService from "../Services/AppointmentService";
 
-
+import express from "express";
+import AppointmentService from "../Services/AppointmentService.js";
 
 let router = express.Router();
 
-
-router.get('/appointment',async(req,res) => {
+router.get('/appointments', async(req, res) => {
     try {
-        const appointment = await AppointmentService.getAllAppointments();
-        res.send(appointment);
-    } catch (erro) {
-        console.log(erro);
-        res.status(500).send(erro);
-        
+        const appointments = await AppointmentService.getAllAppointments();
+        res.send(appointments);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
     }
 });
 
-router.get('/getAppointment/:id', async(req,res) =>{
+router.get('/getAppointment/:id', async(req, res) => {
     const {id} = req.params;
     try {
         const appointment = await AppointmentService.getAppointment(id);
         res.send(appointment);
-        
     } catch (error) {
-        console.log(erro);
-        res.status(500).send(erro);
+        console.log(error);
+        res.status(500).send(error);
     }
 });
-router.get('/postAppointment', async(req,res) =>{
-    const {date,doctorId,Pacientid} = req.body;
+
+router.post('/postAppointment', async(req, res) => {
+    const {date, doctorId, pacientId} = req.body;
     try {
-        const appointment = await AppointmentService.saveAppointment(date,doctorId,Pacientid);
+        const appointment = await AppointmentService.saveAppointment({date, doctorId, pacientId});
         res.send(appointment);
-        
     } catch (error) {
-        console.log(erro);
-        res.status(500).send(erro);
+        console.log(error);
+        res.status(500).send(error);
     }
 });
-router.put('/appointment/:id', async(req,res) =>{
+
+router.put('/appointments/:id', async(req, res) => {
     const {id} = req.params;
-    const {date,doctorId,Pacientid} = req.body;
+    const {date, doctorId, pacientId} = req.body;
     try {
-        const appointment = await AppointmentService.updateAppointment(id,{date,doctorId,Pacientid});
+        const appointment = await AppointmentService.updateAppointment(id, {date, doctorId, pacientId});
         res.send(appointment);
-        
     } catch (error) {
-        console.log(erro);
-        res.status(500).send(erro);
+        console.log(error);
+        res.status(500).send(error);
     }
 });
-router.delete('/appointment/:id', async(req,res) =>{
+
+router.delete('/appointments/:id', async(req, res) => {
     const {id} = req.params;
     try {
         const appointment = await AppointmentService.deleteAppointment(id);
         res.send(appointment);
-        
     } catch (error) {
-        console.log(erro);
-        res.status(500).send(erro);
+        console.log(error);
+        res.status(500).send(error);
     }
 });
 
-export default router();
+router.put('/reschedule/:id', async(req, res) => {
+    const {id} = req.params;
+    const {date} = req.body;
+    try {
+        let appointment = await AppointmentService.getAppointment(id);
+        appointment.date = date;
+
+        appointment = await AppointmentService.updateAppointment(id, {date});
+        res.send(appointment);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+}
+
+);
+
+export default router;
